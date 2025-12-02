@@ -9,7 +9,7 @@
 
 ### 1. Clone o repositório
 ```
-git clone [text](https://github.com/Davi-CP/AirlineSOA.git)
+git clone https://github.com/Davi-CP/AirlineSOA.git
 cd AirlineSOA
 ```
 ### 2. Crie o ambiente virtual
