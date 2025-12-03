@@ -62,3 +62,57 @@ Use o client Zeep fornecido ou ferramentas como SoapUI/Postman para consumir os 
 - Caso uma dependência falhe na instalação, confira se está mesmo no Python 3.10.
 
 ---
+
+### Estrutura de um projeto SOA
+
+```
+flight-service/
+│
+├── src/
+│   ├── server.py              # Ponto de entrada (expõe o serviço Voo, usando Spyne)
+│   ├── business_logic/
+│   │   └── voo_service.py     # Lógica de negócio de Voos (consultar_voos)
+│   ├── models/
+│   │   └── voo_model.py       # Modelo Spyne/Estrutura de dados de Voo
+│   ├── persistence/
+│   │   ├── db.py              # Conexão com a DB do Voo
+│   │   └── voo_repository.py  # Lógica de acesso a dados (CRUD)
+│
+├── db/
+│   └── seed.py                # Dados iniciais para a DB do Voo
+│
+└── config/
+    └── settings.py            # Configurações de porta, DB, etc.
+```
+```
+reservation-service/
+│
+├── src/
+│   ├── server.py              # Ponto de entrada (expõe o serviço Reserva, usando Spyne)
+│   ├── business_logic/
+│   │   └── reserva_service.py # Lógica de negócio de Reservas (fazer_reserva)
+│   ├── models/
+│   │   └── reserva_model.py   # Modelo Spyne/Estrutura de dados de Reserva
+│   ├── persistence/
+│   │   ├── db.py              # Conexão com a DB da Reserva
+│   │   └── reserva_repository.py # Lógica de acesso a dados (CRUD)
+│
+├── db/
+│   └── seed.py                # Dados iniciais para a DB da Reserva
+│
+└── config/
+    └── settings.py            # Configurações de porta, DB, etc.
+```
+```
+client-application/
+│
+├── src/
+│   ├── frontend/              # Interface do utilizador (UI)
+│   └── logic/
+│       └── travel_manager.py  # Orquestra as chamadas
+│                              # - Chama 'FlightService' para obter voos
+│                              # - Chama 'ReservationService' para reservar
+│
+└── config/
+    └── service_urls.py        # Guarda os endereços (URLs) dos serviços externos
+```
