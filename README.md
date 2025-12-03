@@ -63,6 +63,40 @@ Use o client Zeep fornecido ou ferramentas como SoapUI/Postman para consumir os 
 
 ---
 
+### Exemplos de curl 
+
+- Dentro da pasta reservas
+
+* Verificar se o servidor está de pé
+
+```
+curl http://localhost:8001\?wsdl
+```
+* Criar nova reserva (vai dar erro por enquanto, pois não está salvando no banco)
+
+```
+curl -X POST http://0.0.0.0:8001/ -H 'Content-Type: text/xml; charset=utf-8' --data '
+<soap11:Envelope xmlns:soap11="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://examplo.com/airline/reservas">
+    <soap11:Body>
+        <tns:criar_reserva>
+            <tns:data_reserva>2026-04-20</tns:data_reserva>
+            <tns:numero_voo>101</tns:numero_voo>
+            <tns:cpf>12345678901</tns:cpf>
+            <tns:nome_passageiro>João Teste Curl</tns:nome_passageiro>
+        </tns:criar_reserva>
+    </soap11:Body>
+</soap11:Envelope>'
+
+```
+
+- Dentro da pasta voos
+
+* Verificar se o servidor está de pé
+
+```
+curl http://localhost:8001\?wsdl
+```
+
 ### Estrutura de um projeto SOA
 
 ```
