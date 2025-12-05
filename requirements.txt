@@ -12,3 +12,5 @@ requests-toolbelt==1.0.0
 spyne==2.14.0
 urllib3==2.5.0
 zeep==4.3.2
+Flask==2.3.3
+Flask-CORS==4.0.0
