@@ -1,4 +1,4 @@
-from spyne import ComplexModel, Unicode, Integer
+from spyne import ComplexModel, Unicode, Integer, Double
 
 class Voo(ComplexModel):
     id = Integer

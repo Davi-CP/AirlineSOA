@@ -1,7 +1,11 @@
 import sqlite3 as s
+from pathlib import Path
+
+# Caminho do banco de dados na raiz do projeto
+DB_PATH = Path(__file__).parent.parent / 'banco_airline.db'
 
 #criar conexao
-conexao = s.connect('banco_airline.db')
+conexao = s.connect(str(DB_PATH))
 #criar cursor
 cursor = conexao.cursor()
 

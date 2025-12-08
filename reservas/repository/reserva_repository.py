@@ -1,7 +1,11 @@
-from .db import get_db_connection
+import sqlite3
+from pathlib import Path
+
+# Caminho do banco de dados na raiz do projeto
+DB_PATH = Path(__file__).parent.parent.parent / 'banco_airline.db'
 
 def inserir_reserva(numero_voo, cpf, data_reserva, status, criado_em):
-    con = get_db_connection()
+    con = sqlite3.connect(str(DB_PATH))
     try:
         cursor = con.cursor()
         cursor.execute("""
@@ -16,7 +20,7 @@ def inserir_reserva(numero_voo, cpf, data_reserva, status, criado_em):
 
 
 def listar_reservas_por_cpf(cpf):
-    con = get_db_connection()
+    con = sqlite3.connect(str(DB_PATH))
     try:
         cursor = con.cursor()
         cursor.execute(
@@ -29,7 +33,7 @@ def listar_reservas_por_cpf(cpf):
 
 
 def deletar_reserva(reserva_id):
-    con = get_db_connection()
+    con = sqlite3.connect(str(DB_PATH))
     try:
         cursor = con.cursor()
         cursor.execute("DELETE FROM reservas WHERE id = ?", (reserva_id,))

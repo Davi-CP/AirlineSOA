@@ -2,11 +2,11 @@ from wsgiref.simple_server import make_server
 from spyne import Application
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
-from voo import FlightServices
+from services.voo_service import VooService
 
 Application = Application(
-    [FlightServices],
-    tns = "http://examplo.com/airline/reservas",
+    [VooService],
+    tns = "http://AirlineSOA.com/airline/voos",
     in_protocol = Soap11(validator='lxml'),
     out_protocol = Soap11()
 )

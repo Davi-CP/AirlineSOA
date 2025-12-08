@@ -11,13 +11,26 @@ CORS(app)
 VOOS_WSDL = 'http://localhost:8000/?wsdl'
 RESERVAS_WSDL = 'http://localhost:8001/?wsdl'
 
+voos_client = None
+reservas_client = None
+
+# Conectar ao serviço de voos
 try:
+    print(f"[INFO] Tentando conectar ao serviço de voos em {VOOS_WSDL}...")
     voos_client = Client(wsdl=VOOS_WSDL)
-    reservas_client = Client(wsdl=RESERVAS_WSDL)
+    print("[INFO] ✅ Serviço de voos conectado com sucesso!")
 except Exception as e:
-    print(f"Erro ao conectar aos serviços SOAP: {e}")
-    voos_client = None
-    reservas_client = None
+    print(f"[ERRO] ❌ Falha ao conectar ao serviço de voos: {type(e).__name__}: {e}")
+    print("[INFO] Certifique-se de que o servidor está rodando: python3.10 voos/server.py")
+
+# Conectar ao serviço de reservas
+try:
+    print(f"[INFO] Tentando conectar ao serviço de reservas em {RESERVAS_WSDL}...")
+    reservas_client = Client(wsdl=RESERVAS_WSDL)
+    print("[INFO] ✅ Serviço de reservas conectado com sucesso!")
+except Exception as e:
+    print(f"[ERRO] ❌ Falha ao conectar ao serviço de reservas: {type(e).__name__}: {e}")
+    print("[INFO] Certifique-se de que o servidor está rodando: python3.10 reservas/server.py")
 
 
 @app.route('/')
