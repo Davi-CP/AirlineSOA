@@ -20,6 +20,12 @@ python3.10 -m venv venv
 source venv/bin/activate
 ```
 
+#### Windows
+
+```
+python -m venv venv
+venv\Scripts\activate
+```
 
 ### 3. Instale as dependências
 
@@ -34,7 +40,14 @@ pip install -r requirements.txt
 
 > Se já existir um arquivo de banco, pode pular este passo.  
 Para popular dados de teste, execute o seed:
-
+```
+python seed.py
+```
+> Se não existir ainda, execute o db:
+```
+cd db
+python db.py
+```
 ### 5. Inicie o servidor SOAP
 ```
 python server.py
