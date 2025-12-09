@@ -4,22 +4,22 @@ from repository.reserva_repository import (
     listar_reservas_por_cpf,
     deletar_reserva
 )
-from spyne import srpc, ServiceBase, Unicode, Iterable
+from spyne import srpc, ServiceBase, Unicode, Integer, Iterable
 from models.reserva_model import Reserva
 
 #service de reservas usando Spyne
 class ReservaService(ServiceBase):
-    @srpc(Unicode, Unicode, Unicode, Unicode, _returns=Unicode)
+    @srpc(Unicode, Integer, Integer, Unicode, _returns=Unicode)
     def criar_reserva(data_reserva, numero_voo, cpf, nome_passageiro):
         """Regra de negócio: cria uma nova reserva."""
         return criar_reserva_domain(data_reserva, numero_voo, cpf, nome_passageiro)
 
-    @srpc(Unicode, _returns=Iterable(Reserva))
+    @srpc(Integer, _returns=Iterable(Reserva))
     def listar_reservas(cpf):
         """Regra de negócio: lista reservas por CPF."""
         return listar_reservas_domain(cpf)
 
-    @srpc(Unicode, _returns=Unicode)
+    @srpc(Integer, _returns=Unicode)
     def deletar_reserva(reserva_id):
         """Regra de negócio: deleta uma reserva por ID."""
         return deletar_reserva_domain(reserva_id)

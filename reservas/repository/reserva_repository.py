@@ -1,5 +1,6 @@
 import sqlite3
 from pathlib import Path
+from models.reserva_model import Reserva
 
 # Caminho do banco de dados na raiz do projeto
 DB_PATH = Path(__file__).parent.parent.parent / 'banco_airline.db'
@@ -27,7 +28,19 @@ def listar_reservas_por_cpf(cpf):
             "SELECT id, numero_voo, cpf, data_reserva, status FROM reservas WHERE cpf = ?", 
             (cpf,)
         )
-        return cursor.fetchall()
+        #converter tuplas em objetos Reserva
+        rows = cursor.fetchall()
+        reservas = []
+        for row in rows:
+            reserva = Reserva()
+            reserva.id = row[0]
+            reserva.numero_voo = row[1]
+            reserva.cpf = row[2]
+            reserva.data_reserva = row[3]
+            reserva.status = row[4]
+            reservas.append(reserva)
+        return reservas
+    
     finally:
         con.close()
 

@@ -107,15 +107,28 @@ def minhas_reservas():
             return jsonify({'erro': 'Serviço de reservas indisponível'}), 503
 
         # Chamada ao serviço SOAP
-        resultado = reservas_client.service.listar_reserva_by_cpf(int(cpf))
+        resultado = reservas_client.service.listar_reservas(int(cpf))
         
         # Converter resultado para formato JSON
         reservas_list = []
         if resultado:
             if isinstance(resultado, list):
-                reservas_list = [dict(reserva) for reserva in resultado]
+                for reserva in resultado:
+                    reservas_list.append({
+                        'id': reserva.id,
+                        'data_reserva': reserva.data_reserva,
+                        'numero_voo': reserva.numero_voo,
+                        'cpf': reserva.cpf,
+                        'status': reserva.status
+                    })
             else:
-                reservas_list = [dict(resultado)]
+                reservas_list.append({
+                    'id': resultado.id,
+                    'data_reserva': resultado.data_reserva,
+                    'numero_voo': resultado.numero_voo,
+                    'cpf': resultado.cpf,
+                    'status': resultado.status
+                })
 
         return jsonify({'reservas': reservas_list})
 
