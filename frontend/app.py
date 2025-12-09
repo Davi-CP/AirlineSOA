@@ -58,9 +58,32 @@ def buscar_voos():
         voos_list = []
         if resultado:
             if isinstance(resultado, list):
-                voos_list = [dict(voo) for voo in resultado]
+                for voo in resultado:
+                    voos_list.append({
+                        'id': voo.id,
+                        'numero_voo': voo.numero_voo,
+                        'origem': voo.origem,
+                        'destino': voo.destino,
+                        'data': voo.data,
+                        'hora_saida': voo.hora_saida,
+                        'hora_chegada': voo.hora_chegada,
+                        'preco': voo.preco,
+                        'capacidade_disponivel': voo.capacidade_disponivel,
+                        'companhia_aerea': voo.companhia_aerea
+                    })
             else:
-                voos_list = [dict(resultado)]
+                voos_list.append({
+                    'id': resultado.id,
+                    'numero_voo': resultado.numero_voo,
+                    'origem': resultado.origem,
+                    'destino': resultado.destino,
+                    'data': resultado.data,
+                    'hora_saida': resultado.hora_saida,
+                    'hora_chegada': resultado.hora_chegada,
+                    'preco': resultado.preco,
+                    'capacidade_disponivel': resultado.capacidade_disponivel,
+                    'companhia_aerea': resultado.companhia_aerea
+                })
 
         return jsonify({'voos': voos_list})
 
