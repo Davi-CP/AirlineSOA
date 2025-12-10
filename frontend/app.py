@@ -103,11 +103,17 @@ def minhas_reservas():
         if not cpf:
             return jsonify({'erro': 'CPF é obrigatório'}), 400
 
+        # Validar se CPF é um número válido
+        try:
+            cpf_int = int(cpf)
+        except ValueError:
+            return jsonify({'erro': 'CPF deve ser um valor numérico'}), 400
+
         if not reservas_client:
             return jsonify({'erro': 'Serviço de reservas indisponível'}), 503
 
         # Chamada ao serviço SOAP
-        resultado = reservas_client.service.listar_reservas(int(cpf))
+        resultado = reservas_client.service.listar_reservas(cpf_int)
         
         # Converter resultado para formato JSON
         reservas_list = []
@@ -143,14 +149,25 @@ def criar_reserva():
     """Cria uma nova reserva."""
     try:
         data = request.json
-        data_reserva = data.get('data_reserva', '')
+        data_reserva = data.get('data_reserva', '').strip()
         numero_voo = data.get('numero_voo', '')
         cpf = data.get('cpf', '')
-        nome_passageiro = data.get('nome_passageiro', '')
+        nome_passageiro = data.get('nome_passageiro', '').strip()
 
         # Validar campos obrigatórios
         if not all([data_reserva, numero_voo, cpf, nome_passageiro]):
             return jsonify({'erro': 'Todos os campos são obrigatórios'}), 400
+
+        # Validar tipos numéricos
+        try:
+            #numero_voo_int = int(numero_voo)
+            cpf_int = int(cpf)
+        except ValueError:
+            return jsonify({'erro': 'Número de voo e CPF devem ser valores numéricos'}), 400
+
+        # Validar formato da data (simples: deve ter comprimento razoável)
+        if len(data_reserva) < 8:
+            return jsonify({'erro': 'Data de reserva inválida'}), 400
 
         if not reservas_client:
             return jsonify({'erro': 'Serviço de reservas indisponível'}), 503
@@ -158,8 +175,8 @@ def criar_reserva():
         # Chamada ao serviço SOAP
         resultado = reservas_client.service.criar_reserva(
             data_reserva, 
-            int(numero_voo), 
-            int(cpf), 
+            numero_voo, 
+            cpf_int, 
             nome_passageiro
         )
 
@@ -181,11 +198,17 @@ def deletar_reserva():
         if not reserva_id:
             return jsonify({'erro': 'ID da reserva é obrigatório'}), 400
 
+        # Validar se reserva_id é um número válido
+        try:
+            reserva_id_int = int(reserva_id)
+        except ValueError:
+            return jsonify({'erro': 'ID da reserva deve ser um valor numérico'}), 400
+
         if not reservas_client:
             return jsonify({'erro': 'Serviço de reservas indisponível'}), 503
 
         # Chamada ao serviço SOAP
-        resultado = reservas_client.service.deletar_reserva(int(reserva_id))
+        resultado = reservas_client.service.deletar_reserva(reserva_id_int)
 
         return jsonify({'mensagem': resultado})
 

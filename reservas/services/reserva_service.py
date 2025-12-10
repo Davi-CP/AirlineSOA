@@ -9,7 +9,7 @@ from models.reserva_model import Reserva
 
 #service de reservas usando Spyne
 class ReservaService(ServiceBase):
-    @srpc(Unicode, Integer, Integer, Unicode, _returns=Unicode)
+    @srpc(Unicode, Unicode, Integer, Unicode, _returns=Unicode)
     def criar_reserva(data_reserva, numero_voo, cpf, nome_passageiro):
         """Regra de negócio: cria uma nova reserva."""
         return criar_reserva_domain(data_reserva, numero_voo, cpf, nome_passageiro)
