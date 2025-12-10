@@ -1,7 +1,8 @@
 import sqlite3
 from datetime import datetime
+from pathlib import Path
 
-DB_NAME = "banco_airline.db"
+DB_PATH = Path(__file__).parent.parent / 'banco_airline.db'
 
 def seed_voos(con):
     cur = con.cursor()
@@ -31,6 +32,7 @@ def seed_voos(con):
 def seed_reservas(con):
     cur = con.cursor()
 
+    # Aqui está pegando o ID do voo para gravar em reservas.numero_voo
     cur.execute("SELECT id FROM voos ORDER BY id LIMIT 3")
     voos = cur.fetchall()
 
@@ -59,14 +61,13 @@ def seed_reservas(con):
     print("Reservas inseridas com sucesso.")
 
 def main():
-    con = sqlite3.connect(DB_NAME)
+    con = sqlite3.connect(str(DB_PATH))
     try:
         seed_voos(con)
         seed_reservas(con)
         print("\nSeed completo!")
     finally:
         con.close()
-
 
 if __name__ == "__main__":
     main()
